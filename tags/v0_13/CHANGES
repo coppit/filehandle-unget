@@ -1,0 +1,23 @@
+Version 0.13:
+- Added detection for a case in which a Perl bug will be exercised on Windows.
+  Also added a test case (binmode_bug.t) to demonstrate it. See the BUGS
+  section of the documentation.
+- Added a couple new test cases.
+
+Version 0.12:
+- Changed the filehandle detection scheme so that filehandles created using
+  Symbol::gensym would be detected correctly. (Thanks to Tassilo von Parseval
+  <tassilo.parseval@post.rwth-aachen.de> for finding the bug)
+- Fixed a bug in getline and getlines which would cause the routines to not
+  return undef at the end of the file. (Thanks to Tassilo von Parseval
+  <tassilo.parseval@post.rwth-aachen.de> for finding the bug)
+- Fixed a potential bug in seek which would cause the module to not intercept
+  the seek call following a previous seek call with an invalid whence
+  parameter.
+
+Version 0.11:
+- Fixed uninitialized value warnings
+- Create SourceForge project
+
+Version 0.10:
+- Initial version
