@@ -30,13 +30,12 @@ t/ungetc.t
 t/ungets.t
 
 # Module::Install extensions
-inc/B.pm
 inc/B/Deparse.pm
 inc/bytes.pm
 inc/Data/Dumper.pm
 inc/ExtUtils/AutoInstall.pm
-inc/File/Glob.pm
 inc/File/HomeDir.pm
+inc/File/Glob.pm
 inc/File/Spec.pm
 inc/File/Spec/Functions.pm
 inc/File/Spec/Unix.pm
@@ -54,6 +53,5 @@ inc/Module/Install.pm
 inc/Scalar/Util.pm
 inc/Test/Builder.pm
 inc/Test/More.pm
-inc/utf8.pm
 
 META.yml                                Module meta-data (added by MakeMaker)
