@@ -13,6 +13,12 @@ abstract_from   ('lib/FileHandle/Unget.pm');
 version_from    ('lib/FileHandle/Unget.pm');
 license         ('gpl');
 
+build_requires  (
+                  'Test::More' => 0,
+                  'Data::Dumper' => 0,
+                  'File::Spec::Functions' => 0,
+                );
+
 requires        (
                   'Scalar::Util' => 0,
                 );
@@ -21,6 +27,7 @@ clean_files     ('t/temp');
 
 include         ('ExtUtils/AutoInstall.pm');
 
+auto_include_deps ( );
 auto_install    ( );
 WriteAll();
 
