@@ -37,7 +37,7 @@ Checklist for a release:
 - Release file:
   http://sourceforge.net/account/login.php
   ncftpput upload.sf.net incoming FileHandle-Unget-X.XX.tar.gz
-  https://sourceforge.net/project/admin/qrs.php?package_id=&group_id=93038
+  http://sourceforge.net/project/admin/editpackages.php?group_id=93038
 - Announce any news on SourceForge:
   http://sourceforge.net/news/submit.php?group_id=93038
 - Announce on freshmeat:
@@ -48,6 +48,7 @@ Checklist for a release:
   $ cd devel
   $ rm -rf old
   $ cp -r lib old
+  $ rm -rf `find old -name CVS`
 - Check in code:
   $ export CVS_RSH=ssh
   $ cvs -z3 -d:ext:coppit@cvs.fh-unget.sourceforge.net:/cvsroot/fh-unget ci
