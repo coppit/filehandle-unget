@@ -10,7 +10,7 @@ new FileHandle::Unget();
 # Check for memory leaks.
 SKIP:
 {
-  skip('Devel::Leak not installed',1) if defined $Devel::Leak::VERSION;
+  skip('Devel::Leak not installed',1) unless defined $Devel::Leak::VERSION;
 
   my $fhu_handle;
 
