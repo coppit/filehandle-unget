@@ -1,4 +1,4 @@
-SUBJECT: FileHandle::Unget 0.10 released
+FileHandle::Unget 0.11 released
 
 Description:
 - FileHandle::Unget is a drop-in replacement for FileHandle which allows more
@@ -8,17 +8,19 @@ Description:
 
 Download:
 - You can download FileHandle::Unget from CPAN:
-  http://www.cpan.org/authors/id/D/DC/DCOPPIT/FileHandle-Unget-0.10.tar.gz
+  http://www.cpan.org/authors/id/D/DC/DCOPPIT/FileHandle-Unget-0.11.tar.gz
 - Until the file propagates to the mirrors, you can use the following URL:
-  http://prdownloads.sourceforge.net/filehandle-unget/FileHandle-Unget-0.10.tar.gz
+  http://prdownloads.sourceforge.net/fh-unget/FileHandle-Unget-0.11.tar.
+gz
 
 Changes:
-- This is the initial version.
+- Fixed uninitialized value warnings
+- Created SourceForge project
 
 See the README for additional notes.
 
 A complete change log is at:
-- http://filehandle-unget.sourceforge.net/CHANGES
+- http://fh-unget.sourceforge.net/CHANGES
 
 Regards,
 David
