@@ -1,0 +1,103 @@
+FileHandle::Unget - A FileHandle which supports ungetting of multiple bytes
+
+FileHandle::Unget is a drop-in replacement for FileHandle which allows more
+than one byte to be placed back on the input. It supports an ungetc(ORD) which
+can be called more than once in a row, and an ungets(SCALAR) which places a
+string of bytes back on the input.
+
+
+NEW IN THIS VERSION
+
+Version 0.16.0: Wed Sep 15 2004
+- Fixed stdin_tell_bug.t so that it's more platform-dependent.
+- Added filehandle-specific input_record_separator capability
+- Changed Makefile.PL to use Module::Install
+
+
+MODULE DEPENDENCIES
+ 
+To use this module, you will need to install:
+
+- Scalar::Util
+
+You should be prompted to install this module automatically when you run "perl
+Makefile.PL".
+
+
+INSTALLATION
+
+To install this package, change to the directory where you unarchived this
+distribution and type the following:
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+You will be prompted for installation locations. You can suppress these
+prompts by specifying either "PREFIX=/installation/path" (for installation
+into a custom location), "INSTALLDIRS=site" (for installation into
+site-specific Perl directories), or "INSTALLDIRS=perl" (for installation into
+standard Perl directories).
+
+If you make the installation into your own directory, then remember that you
+must tell perl where to search for modules before trying to 'use' them. For
+example:
+
+  use lib '/home/userid/lib';
+  use CGI::Cache;
+
+If make test fails, please see the INSTALLATION PROBLEMS section below.
+
+
+INSTALLATION PROBLEMS
+
+If "make test" fails, run
+
+  make test TEST_VERBOSE=1
+
+and see which test(s) are failing. Please email the results to the address
+below, or submit a bug report on the project website as described in the
+section REPORTING BUGS below.
+
+For other bugs, see the section REPORTING BUGS below.
+
+
+SECURITY NOTE
+
+On Windows, this module will use a temporary file to decompress a file handle
+when necessary. This could pose a security risk.
+
+
+DOCUMENTATION
+
+Just "perldoc FileHandle::Unget". After installation on Unix systems,
+you can also do "man FileHandle::Unget".
+
+
+HOMEPAGE
+
+Visit http://fh-unget.sourceforge.net/ for the latest version, mailing lists,
+discussion forums, CVS access, and more.
+
+
+REPORTING BUGS
+
+You can report bugs by filing a bug report at the project homepage. 
+
+
+COPYRIGHT
+
+Copyright (c) 1998-Sep 1 2000 Broc Seib. Copyright (c) Sep 1 2000-2004 David
+Coppit. All rights reserved, save those granted by the license.
+
+
+LICENSE
+
+This code is distributed under the GNU General Public License (GPL).  See
+the file LICENSE included in the distribution.
+
+
+AUTHOR
+
+David Coppit <david@coppit.org> 
