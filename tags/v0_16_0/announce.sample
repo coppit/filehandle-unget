@@ -1,0 +1,26 @@
+FileHandle::Unget 0.11 released
+
+Description:
+- FileHandle::Unget is a drop-in replacement for FileHandle which allows more
+  than one byte to be placed back on the input. It supports an ungetc(ORD)
+  which can be called more than once in a row, and an ungets(SCALAR) which
+  places a string of bytes back on the input.
+
+Download:
+- You can download FileHandle::Unget from CPAN:
+  http://www.cpan.org/authors/id/D/DC/DCOPPIT/FileHandle-Unget-0.11.tar.gz
+- Until the file propagates to the mirrors, you can use the following URL:
+  http://prdownloads.sourceforge.net/fh-unget/FileHandle-Unget-0.11.tar.
+gz
+
+Changes:
+- Fixed uninitialized value warnings
+- Created SourceForge project
+
+See the README for additional notes.
+
+A complete change log is at:
+- http://fh-unget.sourceforge.net/CHANGES
+
+Regards,
+David
