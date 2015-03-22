@@ -1,7 +1,14 @@
 Version 0.1624: Sun Mar 22 2015
 - Moved code to github
 - Added POD test
-- Improve testability of stdin_tell_bug.t
+- Improve testability of binmode_bug.t, stdin_tell_bug.t
+- Implement a potential fix for test failures where FileHandle::getline()
+	seems to be reading a single line even though $/ is undef. Unfortunately I
+	can't reproduce this failure, so I'll submit and check the CPAN Testers
+	reports.
+- Use "local $/" instead of reassigning global $/. Perhaps this is somehow
+	related to the test failures above?
+- Improve documentation for input_record_separator()
 
 Version 0.1623: Sun Aug 9 2009
 - Fixed a bug where files with binary data would sometimes cause an
