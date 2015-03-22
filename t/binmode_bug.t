@@ -2,6 +2,9 @@ use strict;
 use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 2;
+use Config;
+
+my $path_to_perl = $Config{perlpath};
 
 TODO:
 {
@@ -34,7 +37,7 @@ TODO:
 
   # Test eof followed by binmode for streams (fails under Windows)
   {
-    my $fh = new FileHandle::Unget("$^X -e \"open F, '$filename';binmode STDOUT;print <F>\" |");
+    my $fh = new FileHandle::Unget("$path_to_perl -e \"open F, '$filename';binmode STDOUT;print <F>\" |");
 
     print '' if eof($fh);
     binmode $fh;

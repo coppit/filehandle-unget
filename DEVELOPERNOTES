@@ -1,8 +1,8 @@
 This file is not distributed with the module. It outlines some notes for
 developers readying a set of files for distribution.
 
-Subversion CHECKOUT:
-$ svn co https://filehandle-unget.googlecode.com/svn/trunk FileHandle-Unget
+git checkout:
+$ git clone https://github.com/coppit/filehandle-unget.git
 
 Checklist for a release:
 - Be sure to add new test cases for new features
@@ -23,8 +23,7 @@ Checklist for a release:
     http://pause.perl.org/pause/authenquery
   or
     cpan-upload FileHandle-Unget-X.XX.tar.gz
-- Announce it to comp.lang.perl.announce.
-- Check in code:
-  $ svn commit
 - Tag the release for easy retrieval later
-  $ svn cp https://filehandle-unget.googlecode.com/svn/trunk https://filehandle-unget.googlecode.com/svn/tags/0.7100
+  $ git tag -a v0.1700 -m 'Version 0.1700'
+- Push changes to github:
+  $ git push

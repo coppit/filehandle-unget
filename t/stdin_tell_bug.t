@@ -2,6 +2,7 @@ use strict;
 use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 3;
+use Config;
 
 # -------------------------------------------------------------------------------
 
@@ -22,6 +23,8 @@ else
 
 # -------------------------------------------------------------------------------
 
+my $path_to_perl = $Config{perlpath};
+
 my $test_program = catfile 't','temp', 'test_program.pl';
 
 mkdir catfile('t','temp'), 0700;
@@ -34,7 +37,7 @@ my $expected_stdout = qr/Starting at position (-1|0)\ngot: hello\ngot: world\n/;
 my $expected_stderr = '';
 
 {
-  my @standard_inc = split /###/, `perl -e '\$" = "###";print "\@INC"'`;
+  my @standard_inc = split /###/, `$path_to_perl -e '\$" = "###";print "\@INC"'`;
   my @extra_inc;
   foreach my $inc (@INC)
   {
@@ -47,11 +50,11 @@ my $expected_stderr = '';
   if (@extra_inc)
   {
     local $" = ' -I';
-    $test =~ s#\b$test_program_pattern\b#$^X -I@extra_inc $test_program#g;
+    $test =~ s#\b$test_program_pattern\b#$path_to_perl -I@extra_inc $test_program#g;
   }
   else
   {
-    $test =~ s#\b$test_program_pattern\b#$^X $test_program#g;
+    $test =~ s#\b$test_program_pattern\b#$path_to_perl $test_program#g;
   }
 }
 

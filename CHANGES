@@ -1,3 +1,8 @@
+Version 0.1624: Sun Mar 22 2015
+- Moved code to github
+- Added POD test
+- Improve testability of stdin_tell_bug.t
+
 Version 0.1623: Sun Aug 9 2009
 - Fixed a bug where files with binary data would sometimes cause an
 	unitialized value warning at line 394 as well as incorrect behavior. (Thanks

@@ -12,7 +12,7 @@ use vars qw( @ISA $VERSION $AUTOLOAD @EXPORT @EXPORT_OK );
 
 @ISA = qw( Exporter FileHandle );
 
-$VERSION = sprintf "%d.%02d%02d", q/0.16.23/ =~ /(\d+)/g;
+$VERSION = sprintf "%d.%02d%02d", q/0.16.24/ =~ /(\d+)/g;
 
 @EXPORT = @FileHandle::EXPORT;
 @EXPORT_OK = @FileHandle::EXPORT_OK;
@@ -183,7 +183,6 @@ sub input_record_separator
   if(@_)
   {
     tied(*$self)->{'input_record_separator'} = shift;
-    tied(*$self)->{'input_record_separator_specified'} = 1;
   }
 
   return undef unless exists tied(*$self)->{'input_record_separator'};
@@ -367,8 +366,7 @@ sub getline
 
   my $line;
 
-  my $old_input_record_separator = $/;
-  $/ = $self->{'input_record_separator'}
+  local $/ = $self->{'input_record_separator'}
     if exists $self->{'input_record_separator'};
   my $input_record_separator = $/;
 
@@ -378,6 +376,31 @@ sub getline
     $line = $1;
     substr($self->{'filehandle_unget_buffer'},0,length $line) = '';
   }
+	# My best guess at a fix for failures like these:
+	# http://www.cpantesters.org/cpan/report/2185d342-b14c-11e4-9727-fcccf9ba27bb
+	# http://www.cpantesters.org/cpan/report/74a6f9b6-95db-11e4-8169-9f55a5948d86
+	# It seems like even though $/ == undef, we're not reading all the rest of
+	# the file. Unfortunately I can't repro this, so I'll change it and see if
+	# the CPAN-Testers tests start passing.
+  elsif (!defined($input_record_separator))
+	{
+    $line = $self->{'filehandle_unget_buffer'};
+    $self->{'filehandle_unget_buffer'} = '';
+    my @other_lines = $self->{'fh'}->getlines(@_);
+
+    # Not sure if this is necessary. The code in getlines() below seems to
+		# suggest so.
+		@other_lines = () if @other_lines && !defined($other_lines[0]);
+
+    if ($line eq '' && !@other_lines)
+    {
+      $line = undef;
+    }
+    else
+    {
+      $line .= join('', @other_lines);
+    }
+	}
   else
   {
     $line = $self->{'filehandle_unget_buffer'};
@@ -393,7 +416,6 @@ sub getline
       $line .= $templine;
     }
   }
-  $/ = $old_input_record_separator;
 
   tie *{$self->{'fh'}}, __PACKAGE__, $self;
 
@@ -417,8 +439,7 @@ sub getlines
 
   my @buffer_lines;
 
-  my $old_input_record_separator = $/;
-  $/ = $self->{'input_record_separator'}
+  local $/ = $self->{'input_record_separator'}
     if exists $self->{'input_record_separator'};
   my $input_record_separator = $/;
 
@@ -462,7 +483,6 @@ sub getlines
       $buffer_lines[0] .= $templine;
     }
   }
-  $/ = $old_input_record_separator;
 
   tie *{$self->{'fh'}}, __PACKAGE__, $self;
 
@@ -784,10 +804,14 @@ Get or set the pushback buffer directly.
 
 =item $fh->input_record_separator ( STRING )
 
-Get or set the per-filehandle input record separator. After it is called, the
-input record separator for the filehandle is independent of the global $/.
-Until this method is called (and after clear_input_record_separator is called)
-the global $/ is used.
+Get or set the per-filehandle input record separator. If an argument is
+specified, the input record separator for the filehandle is made independent of
+the global $/. Until this method is called (and after
+clear_input_record_separator is called) the global $/ is used.
+
+Note that a return value of "undef" is ambiguous. It can either mean that this
+method has never been called with an argument, or it can mean that it was called
+with an argument of "undef".
 
 
 =item $fh->clear_input_record_separator ()

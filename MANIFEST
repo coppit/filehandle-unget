@@ -24,6 +24,7 @@ t/memory_leak.t
 t/multiple_handles.t
 t/new.t
 t/overridden_pipe.t
+t/pod.t
 t/seek.t
 t/tell.t
 t/ungetc.t
