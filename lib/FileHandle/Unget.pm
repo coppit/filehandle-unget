@@ -400,7 +400,7 @@ sub getline
     {
       $line .= join('', @other_lines);
     }
-   }
+  }
   else
   {
     $line = $self->{'filehandle_unget_buffer'};
