@@ -22,5 +22,5 @@ SKIP:
   my $end_fhu = Devel::Leak::NoteSV($fhu_handle);
 
   # 1
-  is($end_fhu - $start_fhu,0, 'Memory leak');
+  cmp_ok($end_fhu - $start_fhu, '<=', 0, 'Memory leak');
 }
