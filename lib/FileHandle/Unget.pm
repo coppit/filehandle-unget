@@ -472,15 +472,21 @@ sub getlines
   else
   {
     $buffer_lines[0] = $self->{'filehandle_unget_buffer'};
-    my $templine = ($self->{'fh'}->getlines(@_))[0];
+    $self->{'filehandle_unget_buffer'} = '';
+    # Not sure why this isn't working for some platforms. If $/ is undef, then
+    # all the lines should be in [0].
+#    my $templine = ($self->{'fh'}->getlines(@_))[0];
+    my @other_lines = $self->{'fh'}->getlines(@_);
 
-    if ($buffer_lines[0] eq '' && !defined $templine)
+    if ($buffer_lines[0] eq '' && !defined $other_lines[0])
     {
+      # Should this really be "(undef)" and not just "undef"? Leaving it for
+      # now, to avoid changing the API until I know the answer.
       $buffer_lines[0] = undef;
     }
     else
     {
-      $buffer_lines[0] .= $templine;
+      $buffer_lines[0] .= join('', @other_lines);
     }
   }
 
