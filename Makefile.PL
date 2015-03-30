@@ -3,17 +3,17 @@
 use strict;
 use inc::Module::Install;
 
-all_from        ('lib/FileHandle/Unget.pm');
+all_from('lib/FileHandle/Unget.pm');
 
-requires        (
-                  'Scalar::Util' => '1.14',
-                );
+requires(
+  'Scalar::Util' => '1.14',
+);
 
-test_requires   (
-                  'Test::More' => 0,
-                  'File::Spec::Functions' => 0,
-                );
+test_requires(
+  'Test::More' => 0,
+  'File::Spec::Functions' => 0,
+);
 
-clean_files     ('t/temp');
+clean_files('t/temp');
 
 WriteAll();
