@@ -3,6 +3,7 @@ use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 2;
 use Config;
+use File::Temp;
 
 my $path_to_perl = $Config{perlpath};
 
@@ -21,13 +22,13 @@ TODO:
     }
   }
 
-  my $filename = catfile('t','temp', 'output.txt');
+  my $filename;
 
   {
-    mkdir catfile('t','temp'), 0700;
-    unlink $filename;
+    my $fh;
 
-    my $fh = new FileHandle(">$filename");
+    ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
+    
     binmode $fh;
     print $fh "first line\n";
     print $fh "second line\n";

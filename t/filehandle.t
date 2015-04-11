@@ -2,14 +2,17 @@ use strict;
 use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 13;
+use File::Temp;
 
-my $filename = catfile('t','temp', 'output.txt');
+my $filename;
+{
+  my $fh;
+  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
+  close $fh;
+}
 
 # Test "print" and "syswrite" to write/append a file, close $fh
 {
-  mkdir catfile('t','temp'), 0700;
-  unlink $filename;
-
   my $fh = new FileHandle::Unget(">$filename");
   print $fh "first line\n";
   close $fh;

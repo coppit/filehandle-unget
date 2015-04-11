@@ -2,16 +2,16 @@ use strict;
 use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 7;
+use File::Temp;
 
-my $filename = catfile('t','temp', 'output.txt');
+my $filename;
 
 {
-  print "Writing file\n";
+  my $fh;
+  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
 
-  mkdir catfile('t','temp'), 0700;
-  unlink $filename;
+  print "Writing file $filename\n";
 
-  my $fh = new FileHandle(">$filename");
   print $fh "first line\n";
   print $fh "second line\n";
   print $fh "third line\n";

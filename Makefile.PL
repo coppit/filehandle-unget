@@ -14,6 +14,4 @@ test_requires(
   'File::Spec::Functions' => 0,
 );
 
-clean_files('t/temp');
-
 WriteAll();

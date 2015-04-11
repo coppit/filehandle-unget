@@ -3,6 +3,7 @@ use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 3;
 use Config;
+use File::Temp;
 
 # -------------------------------------------------------------------------------
 
@@ -25,14 +26,19 @@ else
 
 my $path_to_perl = $Config{perlpath};
 
-my $test_program = catfile 't','temp', 'test_program.pl';
+my $test_program;
+{
+  my $fh;
+  ($fh, $test_program) = File::Temp::tempfile(UNLINK => 1);
 
-mkdir catfile('t','temp'), 0700;
-Write_Test_Program($test_program);
+  Write_Test_Program($fh);
+
+  close $fh;
+}
 
 # Note: No space before the pipe because on Windows it is passed to the test
 # program
-my $test = "echo hello| $test_program";
+my $test = "echo hello| $path_to_perl $test_program";
 my $expected_stdout = qr/Starting at position (-1|0)\ngot: hello\ngot: world\n/;
 my $expected_stderr = '';
 
@@ -58,8 +64,14 @@ my $expected_stderr = '';
   }
 }
 
-my $test_stdout = catfile('t','temp',"test_program.stdout");
-my $test_stderr = catfile('t','temp',"test_program.stderr");
+my ($test_stdout, $test_stderr);
+{
+  my $fh;
+  ($fh, $test_stdout) = File::Temp::tempfile(UNLINK => 1);
+  close $fh;
+  ($fh, $test_stderr) = File::Temp::tempfile(UNLINK => 1);
+  close $fh;
+}
 
 system "$test 1>$test_stdout 2>$test_stderr";
 
@@ -89,15 +101,13 @@ exit;
 
 sub Write_Test_Program
 {
-  my $filename = shift;
+  my $filehandle = shift;
 
   local $/ = undef;
 
   my $program = <DATA>;
 
-  open PROGRAM, ">$filename";
-  print PROGRAM $program;
-  close PROGRAM;
+  print $filehandle $program;
 }
 
 # -------------------------------------------------------------------------------

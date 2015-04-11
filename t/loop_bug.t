@@ -2,14 +2,14 @@ use strict;
 use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 1;
+use File::Temp;
 
-my $filename = catfile('t','temp', 'output.txt');
+my $filename;
 
 {
-  mkdir catfile('t','temp'), 0700;
-  unlink $filename;
+  my $fh;
+  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
 
-  my $fh = new FileHandle(">$filename");
   print $fh "first line\n";
   print $fh "second line\n";
   close $fh;
