@@ -5,6 +5,8 @@ use inc::Module::Install;
 
 all_from('lib/FileHandle/Unget.pm');
 
+githubmeta;
+
 requires(
   'Scalar::Util' => '1.14',
 );
