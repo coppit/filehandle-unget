@@ -6,6 +6,7 @@ use File::Slurp;
 
 all_from('lib/FileHandle/Unget.pm');
 
+auto_set_bugtracker;
 githubmeta;
 
 include(
