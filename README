@@ -73,7 +73,7 @@ Just "perldoc FileHandle::Unget". After installation on Unix systems,
 you can also do "man FileHandle::Unget".
 
 
-HOMEPAGE
+RESOURCES
 
 The CPAN Page:
 http://search.cpan.org/dist/FileHandle-Unget/
@@ -81,10 +81,8 @@ http://search.cpan.org/dist/FileHandle-Unget/
 The GitHub page:
 https://github.com/coppit/filehandle-unget/
 
-
-REPORTING BUGS
-
-https://github.com/coppit/filehandle-unget/issues
+Bug and feature tracking:
+http://rt.cpan.org/Public/Dist/Display.html?Name=FileHandle-Unget
 
 
 COPYRIGHT
