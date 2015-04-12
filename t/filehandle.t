@@ -3,6 +3,7 @@ use FileHandle::Unget;
 use File::Spec::Functions qw(:ALL);
 use Test::More tests => 13;
 use File::Temp;
+use File::Slurp;
 
 my $filename;
 {
@@ -21,10 +22,7 @@ my $filename;
   syswrite $fh, "second line\n";
   FileHandle::Unget::close($fh);
 
-  $fh = new FileHandle($filename);
-  local $/ = undef;
-  my $results = <$fh>;
-  close $fh;
+  my $results = read_file($filename);
 
   # 1
   is($results, "first line\nsecond line\n",'No eol separator');

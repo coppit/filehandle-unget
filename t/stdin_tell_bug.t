@@ -4,6 +4,7 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 3;
 use Config;
 use File::Temp;
+use File::Slurp;
 
 # -------------------------------------------------------------------------------
 
@@ -30,9 +31,7 @@ my $test_program;
 {
   my $fh;
   ($fh, $test_program) = File::Temp::tempfile(UNLINK => 1);
-
-  Write_Test_Program($fh);
-
+  print $fh read_file(\*DATA);
   close $fh;
 }
 
@@ -78,16 +77,8 @@ system "$test 1>$test_stdout 2>$test_stderr";
 #1
 ok(!$?,'Executing external program');
 
-local $/ = undef;
-my $actual_stdout;
-open ACTUAL_STDOUT, $test_stdout;
-$actual_stdout = <ACTUAL_STDOUT>;
-close ACTUAL_STDOUT;
-
-my $actual_stderr;
-open ACTUAL_STDERR, $test_stderr;
-$actual_stderr = <ACTUAL_STDERR>;
-close ACTUAL_STDERR;
+my $actual_stdout = read_file($test_stdout);
+my $actual_stderr = read_file($test_stderr);
 
 #2
 like($actual_stdout,$expected_stdout,'Output matches');
@@ -96,19 +87,6 @@ like($actual_stdout,$expected_stdout,'Output matches');
 is($actual_stderr,$expected_stderr,'Stderr matches');
 
 exit;
-
-# -------------------------------------------------------------------------------
-
-sub Write_Test_Program
-{
-  my $filehandle = shift;
-
-  local $/ = undef;
-
-  my $program = <DATA>;
-
-  print $filehandle $program;
-}
 
 # -------------------------------------------------------------------------------
 
