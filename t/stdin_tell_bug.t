@@ -4,7 +4,7 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 3;
 use Config;
 use File::Temp;
-use File::Slurp;
+use File::Slurp ();
 
 # -------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ my $test_program;
 {
   my $fh;
   ($fh, $test_program) = File::Temp::tempfile(UNLINK => 1);
-  print $fh read_file(\*DATA);
+  print $fh File::Slurp::read_file(\*DATA);
   close $fh;
 }
 
@@ -77,8 +77,8 @@ system "$test 1>$test_stdout 2>$test_stderr";
 #1
 ok(!$?,'Executing external program');
 
-my $actual_stdout = read_file($test_stdout);
-my $actual_stderr = read_file($test_stderr);
+my $actual_stdout = File::Slurp::read_file($test_stdout);
+my $actual_stderr = File::Slurp::read_file($test_stderr);
 
 #2
 like($actual_stdout,$expected_stdout,'Output matches');
