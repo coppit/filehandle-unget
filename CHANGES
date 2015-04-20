@@ -6,6 +6,8 @@ Version 0.1627:
   like this: 
   http://www.cpantesters.org/cpan/report/86a0145a-e52b-11e4-a1d1-8536eb4f9f07 
 - Fix tests so that they don't prematurely delete the temp file
+  See for example:
+  http://www.cpantesters.org/cpan/report/3adcb600-6bf9-1014-8336-f8616735162a
 
 Version 0.1626: Sun Apr 12 2015
 - Enable verbose testing for CPAN-testers
