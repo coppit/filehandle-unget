@@ -1,4 +1,4 @@
-Version 0.1627:
+Version 0.1627: Mon Apr 20 2015
 - Clarify licensing terms
 - Move verbose testing to a private module, and implement it in a way that
   doesn't require editing the Makefile after it is generated.
@@ -8,6 +8,8 @@ Version 0.1627:
 - Fix tests so that they don't prematurely delete the temp file
   See for example:
   http://www.cpantesters.org/cpan/report/3adcb600-6bf9-1014-8336-f8616735162a
+- Fix tests on Windows.
+  http://www.cpantesters.org/cpan/report/482c4765-af8d-1014-8ca5-91062b825c07
 
 Version 0.1626: Sun Apr 12 2015
 - Enable verbose testing for CPAN-testers

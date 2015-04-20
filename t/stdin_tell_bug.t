@@ -42,12 +42,12 @@ my $expected_stdout = qr/Starting at position (-1|0)\ngot: hello\ngot: world\n/;
 my $expected_stderr = '';
 
 {
-  my @standard_inc = split /###/, `$path_to_perl -e '\$" = "###";print "\@INC"'`;
+  my @standard_inc = split /###/, `$path_to_perl -e "\$\\" = '###';print \\"\@INC\\""`;
   my @extra_inc;
   foreach my $inc (@INC)
   {
     push @extra_inc, "$single_quote$inc$single_quote"
-      unless grep { /^$inc$/ } @standard_inc;
+      unless grep { /^\Q$inc\E$/ } @standard_inc;
   }
 
   my $test_program_pattern = $test_program;
@@ -55,11 +55,7 @@ my $expected_stderr = '';
   if (@extra_inc)
   {
     local $" = ' -I';
-    $test =~ s#\b$test_program_pattern\b#$path_to_perl -I@extra_inc $test_program#g;
-  }
-  else
-  {
-    $test =~ s#\b$test_program_pattern\b#$path_to_perl $test_program#g;
+    $test =~ s#\b\Q$path_to_perl\E\b#$path_to_perl -I@extra_inc#g;
   }
 }
 
