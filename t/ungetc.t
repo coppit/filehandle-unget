@@ -5,22 +5,17 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 5;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  print "Writing file $filename\n";
-
-  print $fh "first line\n";
-  print $fh "second line\n";
-  close $fh;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test ungetc'ing and reading a line of data
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line = <$fh>;
 
@@ -48,7 +43,7 @@ my $filename;
 
 # Test ungetc'ing and read'ing some bytes of data
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line = <$fh>;
 

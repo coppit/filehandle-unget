@@ -4,23 +4,18 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 7;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  print "Writing file $filename\n";
-
-  print $fh "first line\n";
-  print $fh "second line\n";
-  print $fh "third line\n";
-  close $fh;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  print $tmp "third line\n";
+  close $tmp;
 }
 
 # Test normal semantics for input record separators
 {
-  my $fh1 = new FileHandle::Unget($filename);
+  my $fh1 = new FileHandle::Unget($tmp->filename);
 
   local $/ = "\n";
   my $line1 = <$fh1>;
@@ -39,7 +34,7 @@ my $filename;
 
 # Test per-filehandle input record separator for 1 filehandle
 {
-  my $fh1 = new FileHandle::Unget($filename);
+  my $fh1 = new FileHandle::Unget($tmp->filename);
 
   local $/ = "\n";
   my $line1 = <$fh1>;
@@ -68,8 +63,8 @@ my $filename;
 
 # Test per-filehandle input record separator for 2 filehandles
 {
-  my $fh1 = new FileHandle::Unget($filename);
-  my $fh2 = new FileHandle::Unget($filename);
+  my $fh1 = new FileHandle::Unget($tmp->filename);
+  my $fh2 = new FileHandle::Unget($tmp->filename);
 
   local $/ = ' ';
 

@@ -22,23 +22,20 @@ TODO:
     }
   }
 
-  my $filename;
+  my $tmp = File::Temp->new();
 
   {
-    my $fh;
-
-    ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-    
-    binmode $fh;
-    print $fh "first line\n";
-    print $fh "second line\n";
-    print $fh "a line\n" x 1000;
-    close $fh;
+    binmode $tmp;
+    print $tmp "first line\n";
+    print $tmp "second line\n";
+    print $tmp "a line\n" x 1000;
+    close $tmp;
   }
 
   # Test eof followed by binmode for streams (fails under Windows)
   {
-    my $fh = new FileHandle::Unget("$path_to_perl -e \"open F, '$filename';binmode STDOUT;print <F>\" |");
+    my $fh = new FileHandle::Unget("$path_to_perl -e \"open F, '" . $tmp->filename .
+      "';binmode STDOUT;print <F>\" |");
 
     print '' if eof($fh);
     binmode $fh;

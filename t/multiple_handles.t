@@ -4,23 +4,18 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 4;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  print "Writing file $filename\n";
-
-  print $fh "first line\n";
-  print $fh "second line\n";
-  close $fh;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test ungets'ing and reading a line of data
 {
-  my $fh1 = new FileHandle::Unget($filename);
-  my $fh2 = new FileHandle::Unget($filename);
+  my $fh1 = new FileHandle::Unget($tmp->filename);
+  my $fh2 = new FileHandle::Unget($tmp->filename);
 
   my $line = <$fh1>;
   $line = <$fh2>;

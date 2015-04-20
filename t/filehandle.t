@@ -5,24 +5,20 @@ use Test::More tests => 13;
 use File::Temp;
 use File::Slurp ();
 
-my $filename;
-{
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-  close $fh;
-}
+my $tmp = File::Temp->new();
+close $tmp;
 
 # Test "print" and "syswrite" to write/append a file, close $fh
 {
-  my $fh = new FileHandle::Unget(">$filename");
+  my $fh = new FileHandle::Unget(">" . $tmp->filename);
   print $fh "first line\n";
   close $fh;
 
-  $fh = new FileHandle::Unget(">>$filename");
+  $fh = new FileHandle::Unget(">>" . $tmp->filename);
   syswrite $fh, "second line\n";
   FileHandle::Unget::close($fh);
 
-  my $results = File::Slurp::read_file($filename);
+  my $results = File::Slurp::read_file($tmp->filename);
 
   # 1
   is($results, "first line\nsecond line\n",'No eol separator');
@@ -30,7 +26,7 @@ my $filename;
 
 # Test input_line_number and scalar line reading, $fh->close
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   # 2
   is($fh->input_line_number(),0,'Input line number at start');
@@ -48,7 +44,7 @@ my $filename;
 
 # Test array line reading, eof $fh
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my @lines = <$fh>;
   # 5
@@ -66,7 +62,7 @@ my $filename;
 
 # Test byte reading
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $buf;
   my $result = read($fh, $buf, 8);
@@ -81,7 +77,7 @@ my $filename;
 
 # Test byte ->reading
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $buf;
   my $result = $fh->read($buf, 8);
@@ -96,7 +92,7 @@ my $filename;
 
 # Test new_from_fd
 {
-  open FILE, "$filename";
+  open FILE, $tmp->filename;
   my $fh = FileHandle::Unget->new_from_fd(\*FILE,'r');
 
   my $line = <$fh>;

@@ -4,20 +4,17 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 4;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-  
-  print $fh "first line\n";
-  print $fh "second line\n";
-  close $fh;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test getline on the end of the file
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line;
   
@@ -38,7 +35,7 @@ my $filename;
 
 # Test getlines on the end of the file
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line;
   

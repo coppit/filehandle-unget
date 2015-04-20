@@ -4,21 +4,18 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 5;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  binmode $fh;
-  print $fh "first line\n";
-  print $fh "second line\n";
-  close $fh;
+  binmode $tmp;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test tell($fh) and scalar line reading
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line = <$fh>;
   # 1
@@ -33,7 +30,7 @@ my $filename;
 
 # Test tell($fh) and ungets
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   my $line = <$fh>;
   # 3

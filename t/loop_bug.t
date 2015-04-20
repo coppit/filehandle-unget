@@ -4,20 +4,17 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 1;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  print $fh "first line\n";
-  print $fh "second line\n";
-  close $fh;
+  print $tmp "first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test getline on the end of the file
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   binmode $fh;
 
@@ -33,11 +30,11 @@ my $filename;
   {
     $bytes_read += length $line;
 
-    last if $bytes_read > -s $filename;
+    last if $bytes_read > -s $tmp->filename;
   }
 
   # 1
-  is($bytes_read,-s $filename, 'Loop bug');
+  is($bytes_read,-s $tmp->filename, 'Loop bug');
 
   $fh->close;
 }

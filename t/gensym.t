@@ -5,31 +5,27 @@ use Test::More tests => 12;
 use File::Temp;
 use File::Slurp ();
 
-my $filename;
-{
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-  close $fh;
-}
+my $tmp = File::Temp->new();
+close $tmp;
 
 # Test "print" and "syswrite" to write/append a file, close $fh
 {
-#  my $fh1 = new FileHandle(">$filename");
+#  my $fh1 = new FileHandle(">" . $tmp->filename);
 
   use Symbol;
   my $fh1 = gensym;
-  open $fh1, ">$filename";
+  open $fh1, ">" . $tmp->filename;
 
   my $fh = new FileHandle::Unget($fh1);
   print $fh "first line\n";
   close $fh;
 
-  $fh1 = new FileHandle(">>$filename");
+  $fh1 = new FileHandle(">>" . $tmp->filename);
   $fh = new FileHandle::Unget($fh1);
   syswrite $fh, "second line\n";
   FileHandle::Unget::close($fh);
 
-  my $results = File::Slurp::read_file($filename);
+  my $results = File::Slurp::read_file($tmp->filename);
 
   # 1
   is($results, "first line\nsecond line\n",'syswrite()');
@@ -37,11 +33,11 @@ my $filename;
 
 # Test input_line_number and scalar line reading, $fh->close
 {
-#  my $fh1 = new FileHandle($filename);
+#  my $fh1 = new FileHandle($tmp->filename);
 
   use Symbol;
   my $fh1 = gensym;
-  open $fh1, "<$filename";
+  open $fh1, "<" . $tmp->filename;
 
   my $fh = new FileHandle::Unget($fh1);
 
@@ -61,11 +57,11 @@ my $filename;
 
 # Test array line reading, eof $fh
 {
-#  my $fh1 = new FileHandle($filename);
+#  my $fh1 = new FileHandle($tmp->filename);
 
   use Symbol;
   my $fh1 = gensym;
-  open $fh1, "<$filename";
+  open $fh1, "<" . $tmp->filename;
 
   my $fh = new FileHandle::Unget($fh1);
 
@@ -85,11 +81,11 @@ my $filename;
 
 # Test byte reading
 {
-#  my $fh1 = new FileHandle($filename);
+#  my $fh1 = new FileHandle($tmp->filename);
 
   use Symbol;
   my $fh1 = gensym;
-  open $fh1, "<$filename";
+  open $fh1, "<" . $tmp->filename;
 
   my $fh = new FileHandle::Unget($fh1);
 
@@ -106,11 +102,11 @@ my $filename;
 
 # Test byte ->reading
 {
-#  my $fh1 = new FileHandle($filename);
+#  my $fh1 = new FileHandle($tmp->filename);
 
   use Symbol;
   my $fh1 = gensym;
-  open $fh1, "<$filename";
+  open $fh1, "<" . $tmp->filename;
 
   my $fh = new FileHandle::Unget($fh1);
 

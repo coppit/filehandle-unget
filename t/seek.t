@@ -4,21 +4,18 @@ use File::Spec::Functions qw(:ALL);
 use Test::More tests => 3;
 use File::Temp;
 
-my $filename;
+my $tmp = File::Temp->new();
 
 {
-  my $fh;
-  ($fh, $filename) = File::Temp::tempfile(UNLINK => 1);
-
-  binmode $fh;
-  print $fh "this is the first line\n";
-  print $fh "second line\n";
-  close $fh;
+  binmode $tmp;
+  print $tmp "this is the first line\n";
+  print $tmp "second line\n";
+  close $tmp;
 }
 
 # Test seek($fh,###,0) and ungets
 {
-  my $fh = new FileHandle::Unget($filename);
+  my $fh = new FileHandle::Unget($tmp->filename);
 
   seek($fh,23,0);
   my $line = <$fh>;
