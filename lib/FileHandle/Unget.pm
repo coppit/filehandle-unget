@@ -93,7 +93,7 @@ sub new
   else
   {
     $self = $class->SUPER::new(@_);
-    return unless defined $self;
+    return undef unless defined $self; ## no critic (ProhibitExplicitReturnUndef)
   }
 
   my $values =
@@ -126,7 +126,7 @@ sub new_from_fd
 #  else
   {
     $self = $class->SUPER::new_from_fd(@_);
-    return unless defined $self;
+    return undef unless defined $self; ## no critic (ProhibitExplicitReturnUndef)
   }
 
   my $values =
@@ -185,7 +185,7 @@ sub input_record_separator
     tied(*$self)->{'input_record_separator'} = shift;
   }
 
-  return unless exists tied(*$self)->{'input_record_separator'};
+  return undef unless exists tied(*$self)->{'input_record_separator'}; ## no critic (ProhibitExplicitReturnUndef)
   return tied(*$self)->{'input_record_separator'};
 }
 
