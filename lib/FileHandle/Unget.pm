@@ -23,7 +23,7 @@ $VERSION = sprintf "%d.%02d%02d", q/0.16.28/ =~ /(\d+)/g;
 # methods
 sub wrap_methods
 {
-  no strict 'refs';
+  no strict 'refs'; ## no critic (strict)
 
   my $class = shift or return;
   my $seen = shift || {};
@@ -93,7 +93,7 @@ sub new
   else
   {
     $self = $class->SUPER::new(@_);
-    return undef unless defined $self;
+    return unless defined $self;
   }
 
   my $values =
@@ -126,7 +126,7 @@ sub new_from_fd
 #  else
   {
     $self = $class->SUPER::new_from_fd(@_);
-    return undef unless defined $self;
+    return unless defined $self;
   }
 
   my $values =
@@ -185,7 +185,7 @@ sub input_record_separator
     tied(*$self)->{'input_record_separator'} = shift;
   }
 
-  return undef unless exists tied(*$self)->{'input_record_separator'};
+  return unless exists tied(*$self)->{'input_record_separator'};
   return tied(*$self)->{'input_record_separator'};
 }
 
@@ -235,7 +235,7 @@ sub AUTOLOAD
   my $sub = $tie_mapping{$name};
 
   # Alias the anonymous subroutine to the name of the sub we want ...
-  no strict 'refs';
+  no strict 'refs'; ## no critic (strict)
   *{$name} = sub
     {
       my $self = shift;
