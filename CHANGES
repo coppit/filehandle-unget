@@ -1,7 +1,7 @@
 Version 0.1629:
 - Add standard tests
 - Fix compatibility issue with newer versions of perl, which remove "." from
-  @INC.
+  @INC. https://rt.cpan.org/Ticket/Display.html?id=121434
 
 Version 0.1628: Sat May 2 2015
 - Prevent CPAN from indexing private-lib
