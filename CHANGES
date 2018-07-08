@@ -1,3 +1,6 @@
+Version 0.1632:
+- Switch to File::Slurper
+
 Version 0.1631:
 - Trying once again to fix the compile test on windows
 
