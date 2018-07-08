@@ -23,12 +23,12 @@ requires(
 );
 
 test_requires(
-  'File::Slurp' => 0,
+  'File::Slurper' => 0,
   'Test::More' => 0,
   'File::Spec::Functions' => 0,
 );
 
-license 'gpl2';
+license 'gpl';
 auto_license(holder => 'David Coppit');
 no_index 'directory' => 'private-lib';
 
