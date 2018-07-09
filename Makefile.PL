@@ -28,7 +28,7 @@ test_requires(
   'File::Spec::Functions' => 0,
 );
 
-license 'gpl';
+license 'gpl2';
 auto_license(holder => 'David Coppit');
 no_index 'directory' => 'private-lib';
 

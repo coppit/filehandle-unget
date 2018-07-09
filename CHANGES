@@ -1,4 +1,7 @@
 Version 0.1632:
+- Updating META.yml
+
+Version 0.1632:
 - Switch to File::Slurper
 
 Version 0.1631:
